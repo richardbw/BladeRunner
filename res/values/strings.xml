@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Simple strings. -->
+    <string name="app_name">Blade Runner</string>
+
+    <!-- This is a complex string containing style runs. -->
+    <string name="main_label">Hello <u>th            <ignore>e</ignore>re</u>, <i>you</i><b>Activity</b>!</string>
+    <string name="main_desc">Status: start</string>
+    <string name="clear" />
+    <string name="testBeepBtn_str">[Test Beep]</string>
+    <string name="testIoioBtn_str">[IOIO Info..]</string>
+    <string name="ledBtn_str">[Test LED]</string>
+    <string name="beep_length">Beep length (secs): </string>
+    <string name="default_beeplen">1</string>
+    <string name="armed_for_foil">Armed for Foil</string>
+    <string name="weapon_pin">40</string>
+    <string name="lame_pin">36</string>
+    <string name="switch_off_beep">Toggle beep:  </string>
+    <string name="hit_on_target">Touché</string>
+    <string name="hit_off_target">Non valable</string>
+    <string name="weapon_pin_text">Weapon output pin:</string>
+    <string name="jacket_pin">Lamé output pin:</string>
+    
+</resources>

@@ -1,0 +1,62 @@
+/**
+ * 
+ */
+package net.babyoilbonanza.android.ioio.pintest01.thread;
+
+import static net.babyoilbonanza.android.ioio.pintest01.PinTestIoioActivity.tag;
+import net.babyoilbonanza.android.ioio.pintest01.PinTestIoioActivity;
+import net.babyoilbonanza.android.ioio.pintest01.R;
+import net.babyoilbonanza.android.ioio.pintest01.util.Alert;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+/**
+ * @author rbw
+ *
+ */
+public class BeepHandler extends Handler
+{
+    
+    public static final int FLASH_START = 0;
+    public static final int FLASH_END   = 1;
+    public static final int BEEP_START  = 2;
+    public static final int BEEP_END    = 4;
+    
+    private PinTestIoioActivity _main;
+
+    public BeepHandler(PinTestIoioActivity main)
+    {
+        this._main = main;
+    }
+    
+    
+
+    @Override 
+    public void handleMessage(Message msg) 
+    {
+        switch (msg.what) 
+        {
+        case FLASH_START:
+            _main.beepColourTextView.setBackgroundResource(R.color.beep_white);
+            break;
+        case FLASH_END:
+            Log.d(tag, "Setting Background Resource to : "+ R.color.beep_green);
+            _main.beepColourTextView.setBackgroundResource(R.color.beep_green);
+            break;
+        case BEEP_START:           
+            _main.startBeep();
+            break;            
+        case BEEP_END:
+            _main.endBeep();
+            
+            break;            
+            
+            
+        default:
+            Alert.i().error("Unknown 'what': "+msg.what);
+        }
+    }
+    
+
+}

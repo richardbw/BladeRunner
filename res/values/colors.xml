@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <!-- Retrieved via Resources.getColor() and friends. -->
+    <color name="beep_red">#990000</color>
+    
+    <color name="beep_green">#009900</color>
+    
+    <color name="beep_white">#ffffff</color>
+    
+    <color name="beep_darkgrey">#010101</color>
+
+    <!-- Retrieved via Resources.getDrawable() and friends. -->
+    <drawable name="semi_black">#80000000</drawable>
+</resources>
