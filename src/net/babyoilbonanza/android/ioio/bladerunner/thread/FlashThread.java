@@ -19,7 +19,7 @@ import android.util.Log;
  */
 public class FlashThread extends Thread
 {
-    private static final long   DEFAULT_FLASH_MSEC = 100;
+    private static final long   DEFAULT_FLASH_MSEC = 200;
     private static FlashThread  _inst;
     public BladerunnerIoioActivity  _main;
     private boolean             isRunning          = false;
@@ -53,6 +53,8 @@ public class FlashThread extends Thread
         Log.d(tag, "Thread Done.");
         _inst.isRunning = false;
     }
+    
+    
     
     public static void restart() {
         if (_inst.isRunning) return;

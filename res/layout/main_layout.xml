@@ -209,6 +209,12 @@
             android:editable="false"
             android:text="@string/clear" />
 
+        <ImageView
+            android:id="@+id/usbConnectedImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/usb_size_blank" />
+
     </LinearLayout>
 
     <LinearLayout

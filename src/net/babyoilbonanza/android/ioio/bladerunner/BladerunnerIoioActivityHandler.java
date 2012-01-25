@@ -36,11 +36,11 @@ public class BladerunnerIoioActivityHandler extends Handler
         switch (msg.what) 
         {
         case FLASH_START:
-            _main.beepColourTextView.setBackgroundResource(R.color.beep_white);
+            _main.beepColourTextView.setBackgroundResource(R.color.flash_yellow);
             break;
         case FLASH_END:
-            Log.d(tag, "Setting Background Resource to : "+ R.color.beep_green);
-            _main.beepColourTextView.setBackgroundResource(R.color.beep_green);
+            Log.d(tag, "Setting Background Resource to : "+ _main.currentBgColour);
+            _main.beepColourTextView.setBackgroundResource(_main.currentBgColour);
             break;
         case BEEP_START:           
             //_main.startBeep();

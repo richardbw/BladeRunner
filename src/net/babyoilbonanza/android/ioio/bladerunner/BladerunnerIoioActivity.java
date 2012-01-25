@@ -41,7 +41,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
-import android.widget.AnalogClock;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -75,6 +74,7 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
     private TextView                      lame_pin;
     private ImageView                     isOn_weapon;
     private ImageView                     isOn_lame;
+    private ImageView                     usbConnectedImg;
     
     
     public String _hardware_ver     = null;
@@ -83,10 +83,13 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
     public String _ioiolib_ver      = null;
 
 
+    public int currentBgColour      = R.color.beep_darkgrey;
 
 
     private static final boolean      NOT_TESTING_FOR_REAL = false;
     private static final boolean      TESTING_BEEP         = true;
+
+    public static final long IOIO_LOOP_PAUSE = 10;
 
 
 
@@ -106,6 +109,8 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
         lame_pin            = (TextView)        findViewById(R.id.lame_pin);
         isOn_weapon         = (ImageView)       findViewById(R.id.isOn_weapon);
         isOn_lame           = (ImageView)       findViewById(R.id.isOn_lame);
+        usbConnectedImg     = (ImageView)       findViewById(R.id.usbConnectedImg);
+        
 
         toggleBeepButton.setOnClickListener(buttonListener);
         ((Button) findViewById(R.id.testBeepButton)).setOnClickListener(buttonListener);
@@ -262,16 +267,18 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
                 
                 if ( onTarget  )
                 {
-                    FlashThread.restart();
-                    beepColourTextView.setBackgroundResource(R.color.beep_green);
+                    currentBgColour = R.color.beep_green;
                     beepColourTextView.setText(R.string.hit_on_target);  
                 }
                 else
                 {
-                    beepColourTextView.setBackgroundResource(R.color.beep_white);
+                    currentBgColour = R.color.beep_white;
                     beepColourTextView.setText(R.string.hit_off_target);
                     beepColourTextView.setTextColor(R.color.beep_darkgrey);
                 }
+                beepColourTextView.setBackgroundResource(currentBgColour);
+                
+                FlashThread.restart();
             }
         });
     }
@@ -319,6 +326,26 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
     }
     
 
+
+    public void setUsbIconVisible(final boolean isVisible)
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() 
+            {
+                usbConnectedImg.setImageResource(
+                    isVisible?
+                            R.drawable.usb
+                    :       R.drawable.usb_size_blank
+                );
+                
+            }
+        });
+        
+        
+    }
+
+    
     
     void disconnected() throws InterruptedException {
         Alert.i().alert(getTS()+"*IOIO Disconnected.*");
@@ -349,6 +376,8 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
             int wp = Integer.parseInt(weapon_pin.getText()+"");
             int lp = Integer.parseInt(lame_pin.getText()+"");
             
+            setUsbIconVisible(true);
+            
             try
             {
                 Log.d(tag, "Opening Pins> led: "+IOIO.LED_PIN+", _weaponPinOutput: "+wp+", _lamePinOutput: "+lp);
@@ -374,15 +403,15 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
             try 
             {
                 boolean weapon = !_weaponPinOutput.read();
-                if ( ! weapon ) { sleep(1500);
+                if ( ! weapon ) { sleep(200);
                     setDescription("sleeping..     ");
                 }; //allow some time for the lame to register..
                 
                 
                 boolean lame   = !_lamePinOutput.read();
-                String msg = getTS()+"->weapon: "+weapon+", lame: "+ lame;
-                setDescription(msg);
-                Log.d(msg, msg);
+//                String msg = getTS()+"->weapon: "+weapon+", lame: "+ lame;
+//                setDescription(msg);
+//                Log.d(msg, msg);
                 
                 
                 setCircuitClosedLights(weapon, lame);
@@ -393,27 +422,21 @@ public class BladerunnerIoioActivity extends AbstractIOIOActivity
                 if ( ! weapon ) { //tip has been depressed
                     startBeep(NOT_TESTING_FOR_REAL, lame);
                 }
-                
-//                setDescription("Waiting for a switch break..");
-//                _weaponPinOutput.waitForValue(true);
-//                setDescription("Got a result: circuit broken.");
-                
-                
-                
-                
-                
 
-                sleep(100);
+                sleep(IOIO_LOOP_PAUSE);
+                
             } catch (Exception e) {
                 Log.e(tag, getTS()+"---> IOIOThread loop() Exception: "+e.getMessage(), e);
                 e.printStackTrace();
                 setDescription(" IOIOThread loop() Exception: "+e.getMessage());
+                setUsbIconVisible(false);
                 throw new ConnectionLostException(e);
             }
         }
         
         
     }
+
 
     
     

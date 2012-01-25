@@ -28,17 +28,19 @@
 
     <application
         android:icon="@drawable/sword_trns"
-        android:label="@string/app_name" android:permission="android.permission.INTERNET">
+        android:label="@string/app_name" 
+        android:permission="android.permission.INTERNET">
         <activity
             android:name=".BladerunnerIoioActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:label="@string/app_name" >
-            <intent-filter>
+            <intent-filter> 
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <receiver android:name="BladerunnerBroadcastReceiver">            
+           <action android:name="android.intent.action.ums_connected" />
         </receiver>
     </application>
 
